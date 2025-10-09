@@ -1,0 +1,55 @@
+{
+	"name": "pgdump",
+	"version": "0.1.0",
+	"description": "Lightweight Node.js wrapper for PostgreSQL pg_dump.",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc && esbuild src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js='#!/usr/bin/env node'",
+		"dev": "ts-node src/cli.ts",
+		"clean": "rm -rf dist bin",
+		"postinstall": "node dist/scripts/fetch-binary.js"
+	},
+	"keywords": [
+		"postgresql",
+		"pg_dump",
+		"database",
+		"dump",
+		"cli",
+		"typescript",
+		"node"
+	],
+	"author": "Louis DANIEL",
+	"license": "MIT",
+	"packageManager": "pnpm@10.17.1",
+	"type": "module",
+	"homepage": "https://github.com/bottom-up-ai/pgdump",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bottom-up-ai/pgdump.git"
+	},
+	"bugs": {
+		"url": "https://github.com/bottom-up-ai/pgdump/issues"
+	},
+	"bin": {
+		"pgdump": "bin/pgdump.js"
+	},
+	"files": [
+		"dist",
+		"bin",
+		"scripts"
+	],
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"@types/node": "^24.7.1",
+		"cross-fetch": "^4.1.0",
+		"esbuild": "^0.25.10",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.9.3"
+	}
+}

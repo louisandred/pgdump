@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        "target": "ES2022",
+        "module": "esnext",
+        "strict": true,
+		"rootDir": "src",
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "moduleResolution": "Node",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["*"],
+		}
+    },
+    "include": ["src/**/*", "scripts/**/*"],
+}
