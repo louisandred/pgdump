@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  biome-check:
-    name: "Run biome check"
+  code-style-check:
+    name: "Run code formatter and linter check"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
