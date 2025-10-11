@@ -11,7 +11,7 @@ export type DumpOptions = {
 	schemaOnly?: boolean;
 	outputFile?: string;
 	rawArgs?: string[];
-verbose?: boolean;
+	verbose?: boolean;
 };
 
 /**

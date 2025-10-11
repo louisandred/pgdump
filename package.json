@@ -9,10 +9,10 @@
 		"dev": "cross-env ts-node src/cli.ts",
 		"clean": "rm -rf dist bin",
 		"typecheck": "cross-env tsc --noEmit",
-		"check": "cross-env pnpm biome check ./src",
-		"check:ci": "cross-env pnpm dprint check && pnpm biome ci ./src",
-		"lint": "cross-env pnpm typecheck && pnpm check",
-		"format": "cross-env pnpm dprint fmt"
+		"check": "cross-env pnpm typecheck && pnpm check:format && pnpm biome check ./src",
+		"check:ci": "cross-env pnpm check:format && pnpm biome ci ./src",
+		"format": "cross-env pnpm dprint fmt",
+		"check:format": "cross-env pnpm dprint check"
 	},
 	"keywords": [
 		"postgresql",
