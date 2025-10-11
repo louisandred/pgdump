@@ -5,12 +5,14 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc && esbuild src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js='#!/usr/bin/env node'",
-		"dev": "ts-node src/cli.ts",
+		"build": "cross-env tsc && esbuild src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js='#!/usr/bin/env node'",
+		"dev": "cross-env ts-node src/cli.ts",
 		"clean": "rm -rf dist bin",
-		"format": "cross-env pnpm biome format --write ./src",
+		"typecheck": "cross-env tsc --noEmit",
 		"check": "cross-env pnpm biome check ./src",
-		"check:ci": "cross-env pnpm biome ci ./src"
+		"check:ci": "cross-env pnpm biome ci ./src",
+		"format": "cross-env pnpm biome format --write ./src",
+		"lint": "cross-env pnpm typecheck && pnpm check"
 	},
 	"keywords": [
 		"postgresql",
