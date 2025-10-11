@@ -4,7 +4,7 @@
         "target": "ES2022",
         "module": "esnext",
         "strict": true,
-		"rootDir": "src",
+		"rootDir": ".",
         "noImplicitAny": true,
         "sourceMap": true,
         "esModuleInterop": true,
@@ -17,5 +17,5 @@
 			"@/*": ["*"],
 		}
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "scripts/**/*"],
 }
