@@ -1,8 +1,7 @@
-import { platform, arch } from "node:os";
-import os from "node:os";
-import path from "node:path";
 import fs from "node:fs";
 import { chmod } from "node:fs/promises";
+import os, { arch, platform } from "node:os";
+import path from "node:path";
 
 /**
  * Determines the binary filename based on OS and architecture.
