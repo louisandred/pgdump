@@ -1,5 +1,5 @@
 import { getPgDumpBinary } from "@/src/binary";
-import { spawn } from "child_process";
+import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -64,9 +64,13 @@ export const dumpSchema = async (options: DumpOptions): Promise<void | string> =
 
 			const proc = spawn(binaryPath, args);
 
-			proc.stdout.on("data", (data) => (output += String(data)));
+			proc.stdout.on("data", (data) => {
+				output += String(data);
+			});
 
-			proc.stderr.on("data", (data) => console.error(String(data)));
+			proc.stderr.on("data", (data) => {
+				console.error(String(data));
+			});
 
 			proc.on("exit", (code) => {
 				if (code === 0) resolve(output);

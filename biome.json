@@ -25,6 +25,12 @@
 			"recommended": true,
 			"correctness": {
 				"noUnusedVariables": "off"
+			},
+			"style": {
+				"useTemplate": "off"
+			},
+			"suspicious": {
+				"noConfusingVoidType": "off"
 			}
 		}
 	},

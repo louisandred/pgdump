@@ -11,7 +11,7 @@
 		"typecheck": "cross-env tsc --noEmit",
 		"check": "cross-env pnpm typecheck && pnpm check:format && pnpm biome check ./src",
 		"check:ci": "cross-env pnpm check:format && pnpm biome ci ./src",
-		"format": "cross-env pnpm dprint fmt",
+		"format": "cross-env pnpm dprint fmt && pnpm biome lint --write ./src",
 		"check:format": "cross-env pnpm dprint check"
 	},
 	"keywords": [
