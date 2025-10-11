@@ -6,7 +6,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "cross-env tsc && esbuild src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js='#!/usr/bin/env node'",
-		"dev": "cross-env ts-node src/cli.ts",
+		"dev": "cross-env tsx src/cli.ts",
 		"clean": "rm -rf dist bin",
 		"typecheck": "cross-env tsc --noEmit",
 		"check": "cross-env pnpm typecheck && pnpm check:format && pnpm biome check ./src",
@@ -57,6 +57,10 @@
 		"dprint": "^0.50.2",
 		"esbuild": "^0.25.10",
 		"ts-node": "^10.9.2",
+		"tsx": "^4.20.6",
 		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"commander": "^14.0.1"
 	}
 }
