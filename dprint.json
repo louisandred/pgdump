@@ -1,0 +1,22 @@
+{
+	"$schema": "https://dprint.dev/schemas/v0.json",
+	"typescript": {
+		"indentWidth": 4,
+		"useTabs": true,
+		"lineWidth": 99999,
+		"newLineKind": "lf",
+		"quoteStyle": "preferDouble",
+		"semiColons": "prefer",
+		"bracePosition": "maintain",
+		"objectExpression.preferSingleLine": false,
+		"objectPattern.preferSingleLine": false,
+		"typeLiteral.preferSingleLine": false,
+		"tupleType.preferSingleLine": false,
+		"arrowFunction.useParentheses": "maintain"
+	},
+	"includes": ["src/**/*"],
+	"plugins": [
+		"https://plugins.dprint.dev/typescript-0.93.0.wasm",
+		"https://plugins.dprint.dev/json-0.19.3.wasm"
+	]
+}
