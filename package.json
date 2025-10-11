@@ -8,7 +8,6 @@
 		"build": "tsc && esbuild src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js='#!/usr/bin/env node'",
 		"dev": "ts-node src/cli.ts",
 		"clean": "rm -rf dist bin",
-		"postinstall": "node dist/scripts/fetch-binary.js",
 		"format": "cross-env pnpm biome format --write ./src",
 		"check": "cross-env pnpm biome check ./src",
 		"check:ci": "cross-env pnpm biome ci ./src"

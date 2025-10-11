@@ -1,3 +1,6 @@
 /node_modules
 /dist
 todo.ts
+/bin
+.DS_Store
+*.log
