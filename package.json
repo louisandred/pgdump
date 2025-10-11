@@ -8,7 +8,10 @@
 		"build": "tsc && esbuild src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js='#!/usr/bin/env node'",
 		"dev": "ts-node src/cli.ts",
 		"clean": "rm -rf dist bin",
-		"postinstall": "node dist/scripts/fetch-binary.js"
+		"postinstall": "node dist/scripts/fetch-binary.js",
+		"format": "cross-env pnpm biome format --write ./src",
+		"check": "cross-env pnpm biome check ./src",
+		"check:ci": "cross-env pnpm biome ci ./src"
 	},
 	"keywords": [
 		"postgresql",
@@ -46,7 +49,9 @@
 		"access": "public"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.2.5",
 		"@types/node": "^24.7.1",
+		"cross-env": "^10.1.0",
 		"cross-fetch": "^4.1.0",
 		"esbuild": "^0.25.10",
 		"ts-node": "^10.9.2",
