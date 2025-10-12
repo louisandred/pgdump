@@ -72,11 +72,13 @@ jobs:
             dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }} --version
 
           elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            # Install PostgreSQL via Chocolatey
-            choco install postgresql16 --params '/Password:dummy' -y
+            # Download PostgreSQL binaries directly (faster than Chocolatey)
+            curl -L -o postgresql.zip "https://sbp.enterprisedb.com/getfile.jsp?fileid=1258653"
+            unzip -q postgresql.zip
 
-            # Copy binary
-            cp "C:/Program Files/PostgreSQL/16/bin/pg_dump.exe" dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe
+            # Find and copy pg_dump.exe
+            find . -name "pg_dump.exe" -type f
+            cp pgsql/bin/pg_dump.exe dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe
             
             # Verify it works
             dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe --version
@@ -94,7 +96,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
-          name: pg_dump-${{ matrix.platform }}-${{ matrix.arch }}
+          name: pg_dump-${{ matrix.os }}-${{ matrix.arch }}
           path: dist/*
           retention-days: 7
           overwrite: true
