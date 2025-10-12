@@ -11,7 +11,7 @@
 		"includes": ["src/**/*"]
 	},
 	"formatter": {
-		"enabled": true,
+		"enabled": false,
 		"indentStyle": "tab",
 		"indentWidth": 4,
 		"lineEnding": "lf",
@@ -25,6 +25,12 @@
 			"recommended": true,
 			"correctness": {
 				"noUnusedVariables": "off"
+			},
+			"style": {
+				"useTemplate": "off"
+			},
+			"suspicious": {
+				"noConfusingVoidType": "off"
 			}
 		}
 	},
