@@ -1,4 +1,4 @@
-import { getBinaryName, getCacheDir } from "@/src/utils";
+import { getBinaryName, getCacheDir } from "@/utils";
 import fs from "node:fs";
 import { chmod } from "node:fs/promises";
 import { arch, platform } from "node:os";

@@ -4,7 +4,7 @@
         "target": "ES2022",
         "module": "esnext",
         "strict": true,
-		"rootDir": ".",
+		"rootDir": "src",
         "noImplicitAny": true,
         "sourceMap": true,
         "esModuleInterop": true,
@@ -13,8 +13,10 @@
         "skipLibCheck": true,
         "moduleResolution": "Node",
 		"baseUrl": ".",
+		"declaration": true,
+		"declarationMap": true,
 		"paths": {
-			"@/*": ["*"],
+			"@/*": ["src/*"],
 		}
     },
     "include": ["src/**/*"],

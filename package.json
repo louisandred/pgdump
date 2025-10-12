@@ -5,7 +5,8 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc && esbuild ./src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js=\"#!/usr/bin/env node\"",
+		"prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
+		"build": "tsc && tsc-alias && esbuild ./src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js",
 		"dev": "tsx ./src/cli.ts",
 		"clean": "pnpm rimraf -rf dist bin",
 		"typecheck": "tsc --noEmit",
@@ -56,6 +57,7 @@
 		"dprint": "^0.50.2",
 		"esbuild": "^0.25.10",
 		"rimraf": "^6.0.1",
+		"tsc-alias": "^1.8.16",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3"
 	},

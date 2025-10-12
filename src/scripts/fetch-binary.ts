@@ -1,5 +1,5 @@
-import { version } from "@/package.json";
-import { getBinaryName, getCacheDir } from "@/src/utils";
+import { getBinaryName, getCacheDir } from "@/utils";
+import { LIB_VERSION } from '@/version';
 import fs from "node:fs";
 import https from "node:https";
 import { platform } from "node:os";
@@ -40,7 +40,7 @@ const main = async () => {
 		return;
 	}
 
-	const downloadUrl = `https://github.com/louisandred/pgdump/releases/download/v${version}/${binName}`;
+	const downloadUrl = `https://github.com/louisandred/pgdump/releases/download/v${LIB_VERSION}/${binName}`;
 	console.log(`pgdump: downloading ${downloadUrl}`);
 
 	try {

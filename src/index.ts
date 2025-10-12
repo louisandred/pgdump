@@ -1,4 +1,4 @@
-import { DumpOptions, dumpSchema } from "@/src/dump";
+import { DumpOptions, dumpSchema } from "@/dump";
 
 /**
  * Public API for pgdump
