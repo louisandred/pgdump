@@ -72,16 +72,14 @@ jobs:
             dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }} --version
 
           elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            # Download PostgreSQL binaries directly (faster than Chocolatey)
-            curl -L -o postgresql.zip "https://sbp.enterprisedb.com/getfile.jsp?fileid=1258653"
-            unzip -q postgresql.zip
-
-            # Find and copy pg_dump.exe
-            find . -name "pg_dump.exe" -type f
-            cp pgsql/bin/pg_dump.exe dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe
+            # Install PostgreSQL via Chocolatey (most reliable for Windows)
+            choco install postgresql16 --params '/Password:dummy' -y
+            
+            # Copy binary (use PowerShell copy for Windows)
+            powershell -Command "Copy-Item 'C:\Program Files\PostgreSQL\16\bin\pg_dump.exe' -Destination 'dist\pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe'"
             
             # Verify it works
-            dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe --version
+            ./dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe --version
           fi
 
       - name: Upload binary as release asset
