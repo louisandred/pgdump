@@ -97,6 +97,7 @@ jobs:
           name: pg_dump-${{ matrix.platform }}-${{ matrix.arch }}
           path: dist/*
           retention-days: 7
+          overwrite: true
 
   publish:
     if: github.event_name != 'workflow_dispatch'
