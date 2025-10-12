@@ -27,7 +27,6 @@ const mapPlatformToGithub = (platform: NodeJS.Platform): string => {
 
 const SUPPORTED_OS_ARCH = new Set([
 	"ubuntu-latest-x64",
-	"ubuntu-latest-arm64",
 	"macos-latest-x64",
 	"macos-latest-arm64",
 	"windows-latest-x64",
@@ -58,7 +57,6 @@ export const getBinaryName = (): string => {
 				+ `
 			Supported combinations: \n
 			- ubuntu-latest-x64
-			- ubuntu-latest-arm64
 			- macos-latest-x64
 			- macos-latest-arm64
 			- windows-latest-x64

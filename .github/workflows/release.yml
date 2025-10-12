@@ -14,9 +14,7 @@ jobs:
         include:
           - os: ubuntu-latest
             arch: x64
-          - os: ubuntu-latest
-            arch: arm64
-          - os: macos-latest
+          - os: macos-13
             arch: x64
           - os: macos-latest
             arch: arm64
@@ -45,45 +43,43 @@ jobs:
           mkdir -p dist
 
           if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-            if [[ "${{ matrix.arch }}" == "x64" ]]; then
-              URL="https://get.enterprisedb.com/postgresql/postgresql-16.2-1-linux-x64-binaries.tar.gz"
-            else
-              URL="https://get.enterprisedb.com/postgresql/postgresql-16.2-1-linux-arm64-binaries.tar.gz"
-            fi
-            curl -L -o pg.tar.gz "$URL"
-            tar -xzf pg.tar.gz
-            find . -name "pg_dump" -type f -executable
-            cp pgsql/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
+            # Install PostgreSQL client from official repository
+            sudo apt-get update
+            sudo apt-get install -y wget ca-certificates
+
+            # Add PostgreSQL official repository
+            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+            sudo apt-get update
+            sudo apt-get install -y postgresql-client-16
+
+            # Copy binary
+            cp /usr/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
             chmod +x dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
 
-          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            if [[ "${{ matrix.arch }}" == "arm64" ]]; then
-              # Install via Homebrew for native arm64
-              brew install postgresql@16
-              cp $(brew --prefix postgresql@16)/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
-            else
-              # x64: use EnterpriseDB
-              URL="https://get.enterprisedb.com/postgresql/postgresql-16.2-1-osx-binaries.tar.gz"
-              curl -L -o pg.tar.gz "$URL"
-              tar -xzf pg.tar.gz
-              cp pgsql/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
-            fi
+            # Verify it works
+            dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }} --version
+
+          elif [[ "${{ matrix.os }}" == "macos-13" ]] || [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            # Install PostgreSQL via Homebrew (native architecture)
+            brew install postgresql@16
+
+            # Copy binary
+            cp $(brew --prefix postgresql@16)/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
             chmod +x dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
+
+            # Verify it works
+            dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }} --version
 
           elif [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            URL="https://get.enterprisedb.com/postgresql/postgresql-16.2-1-windows-x64-binaries.zip"
-            curl -L -o pg.zip "$URL"
-            unzip -q pg.zip
-            find . -name "pg_dump.exe"
-            cp pgsql/bin/pg_dump.exe dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe
-          fi
+            # Install PostgreSQL via Chocolatey
+            choco install postgresql16 --params '/Password:dummy' -y
 
-      - name: Test binaries
-        run: |
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            # Copy binary
+            cp "C:/Program Files/PostgreSQL/16/bin/pg_dump.exe" dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe
+            
+            # Verify it works
             dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe --version
-          else
-            dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }} --version
           fi
 
       - name: Upload binary as release asset
@@ -93,6 +89,14 @@ jobs:
           files: dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifact for testing
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pg_dump-${{ matrix.platform }}-${{ matrix.arch }}
+          path: dist/*
+          retention-days: 7
 
   publish:
     if: github.event_name != 'workflow_dispatch'
