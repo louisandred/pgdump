@@ -28,13 +28,13 @@
 	"license": "MIT",
 	"packageManager": "pnpm@10.17.1",
 	"type": "module",
-	"homepage": "https://github.com/bottom-up-ai/pgdump",
+	"homepage": "https://github.com/louisandred/pgdump",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/bottom-up-ai/pgdump.git"
+		"url": "git+https://github.com/louisandred/pgdump.git"
 	},
 	"bugs": {
-		"url": "https://github.com/bottom-up-ai/pgdump/issues"
+		"url": "https://github.com/louisandred/pgdump/issues"
 	},
 	"bin": {
 		"pgdump": "bin/pgdump.js"

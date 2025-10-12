@@ -35,7 +35,7 @@ const main = async () => {
 		return;
 	}
 
-	const downloadUrl = `https://github.com/bottom-up-ai/pgdump/releases/download/v${version}/${binName}`;
+	const downloadUrl = `https://github.com/louisandred/pgdump/releases/download/v${version}/${binName}`;
 	console.log(`pgdump: downloading ${downloadUrl}`);
 
 	try {
