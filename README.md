@@ -40,11 +40,11 @@ pnpm add @louisbm/pgdump
 
 #### Dump in a file
 ```ts
-import { dump } from '@louisbm/pgdump';
+import { dumpSchema } from '@louisbm/pgdump';
 
 const backupDatabase = async () => {
   try {
-    await dump({
+    await dumpSchema({
       host: 'localhost',
       port: 5432,
       database: 'mydb',
@@ -62,11 +62,11 @@ backupDatabase();
 
 #### Capture the string
 ```ts
-import { dump } from '@louisbm/pgdump';
+import { dumpSchema } from '@louisbm/pgdump';
 
 const backupDatabase = async () => {
   try {
-    const sql = await dump({
+    const sql = await dumpSchema({
       host: 'localhost',
       port: 5432,
       database: 'mydb',
