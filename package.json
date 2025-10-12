@@ -5,15 +5,15 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "cross-env tsc && esbuild ./src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js='#!/usr/bin/env node'",
-		"dev": "cross-env tsx ./src/cli.ts",
-		"clean": "rm -rf dist bin",
-		"typecheck": "cross-env tsc --noEmit",
-		"check": "cross-env pnpm typecheck && pnpm check:format && pnpm biome check ./src",
-		"check:ci": "cross-env pnpm check:format && pnpm biome ci ./src",
-		"format": "cross-env pnpm dprint fmt && pnpm biome lint --write ./src",
-		"check:format": "cross-env pnpm dprint check",
-		"postinstall": "cross-env tsx ./scripts/fetch-binary.ts"
+		"build": "tsc && esbuild ./src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js --banner:js=\"#!/usr/bin/env node\"",
+		"dev": "tsx ./src/cli.ts",
+		"clean": "pnpm rimraf -rf dist bin",
+		"typecheck": "tsc --noEmit",
+		"check": "pnpm typecheck && pnpm check:format && pnpm biome check ./src",
+		"check:ci": "pnpm check:format && pnpm biome ci ./src",
+		"format": "pnpm dprint fmt && pnpm biome lint --write ./src",
+		"check:format": "pnpm dprint check",
+		"postinstall": "tsx ./src/scripts/fetch-binary.ts"
 	},
 	"keywords": [
 		"postgresql",
@@ -41,8 +41,7 @@
 	},
 	"files": [
 		"dist",
-		"bin",
-		"scripts"
+		"bin"
 	],
 	"engines": {
 		"node": ">=22.0.0"
@@ -53,10 +52,10 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.2.5",
 		"@types/node": "^24.7.1",
-		"cross-env": "^10.1.0",
 		"cross-fetch": "^4.1.0",
 		"dprint": "^0.50.2",
 		"esbuild": "^0.25.10",
+		"rimraf": "^6.0.1",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3"
 	},
