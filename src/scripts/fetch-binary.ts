@@ -6,6 +6,11 @@ import { platform } from "node:os";
 import path from "node:path";
 import { pipeline } from "node:stream/promises";
 
+if (process.env.GITHUB_ACTIONS) {
+	console.log("✅ CI environment detected — skipping binary download (postinstall).");
+	process.exit(0);
+}
+
 const downloadFile = async (url: string, dest: string): Promise<void> => {
 	await new Promise<void>((resolve, reject) => {
 		https
