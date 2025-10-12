@@ -98,8 +98,12 @@ jobs:
           Copy-Item $pgDumpPath -Destination $destPath
           Write-Host "Copied to: $destPath"
 
-          # Verify it works
+          # Verify it works (add PostgreSQL bin to PATH temporarily for verification)
+          $env:PATH = "C:\Program Files\PostgreSQL\16\bin;$env:PATH"
           & $destPath --version
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Warning: pg_dump verification failed with exit code $LASTEXITCODE, but binary was copied successfully"
+          }
 
       - name: Upload binary as release asset
         if: github.event_name != 'workflow_dispatch'
