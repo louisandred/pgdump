@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { version } from "@/package.json";
-import { dumpSchema } from "@/src/dump";
+import { dumpSchema } from "@/dump";
+import { LIB_VERSION } from "@/version";
 import { Command } from "commander";
 import path from "node:path";
 
@@ -9,7 +9,7 @@ const program = new Command();
 program
 	.name("pgdump")
 	.description("Lightweight Node.js wrapper for PostgreSQL pg_dump")
-	.version(version);
+	.version(LIB_VERSION);
 
 program
 	.requiredOption("--db <database>", "Database name")
