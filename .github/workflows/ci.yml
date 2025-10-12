@@ -21,8 +21,8 @@ jobs:
           node-version: 22
           cache: "pnpm"
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - name: Install dependencies (skip postinstall)
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Typescript typecheck
         run: pnpm typecheck
