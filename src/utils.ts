@@ -26,11 +26,11 @@ const mapPlatformToGithub = (platform: NodeJS.Platform): string => {
 };
 
 const SUPPORTED_OS_ARCH = new Set([
-  "ubuntu-latest-x64",
-  "ubuntu-latest-arm64",
-  "macos-latest-x64",
-  "macos-latest-arm64",
-  "windows-latest-x64",
+	"ubuntu-latest-x64",
+	"ubuntu-latest-arm64",
+	"macos-latest-x64",
+	"macos-latest-arm64",
+	"windows-latest-x64",
 ]);
 
 const isSupported = (os: string, arch: string): boolean => {
@@ -54,15 +54,15 @@ export const getBinaryName = (): string => {
 
 	if (!isSupported(osName, architecture)) {
 		throw new Error(
-			`Unsupported platform/architecture: ${osName}-${architecture}.\n` + 
-			`
+			`Unsupported platform/architecture: ${osName}-${architecture}.\n`
+				+ `
 			Supported combinations: \n
 			- ubuntu-latest-x64
 			- ubuntu-latest-arm64
 			- macos-latest-x64
 			- macos-latest-arm64
 			- windows-latest-x64
-			`
+			`,
 		);
 	}
 

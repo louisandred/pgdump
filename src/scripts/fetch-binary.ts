@@ -1,10 +1,10 @@
 import { version } from "@/package.json";
 import { getBinaryName, getCacheDir } from "@/src/utils";
-import fs from "fs";
-import https from "https";
+import fs from "node:fs";
+import https from "node:https";
+import { platform } from "node:os";
+import path from "node:path";
 import { pipeline } from "node:stream/promises";
-import { platform } from "os";
-import path from "path";
 
 const downloadFile = async (url: string, dest: string): Promise<void> => {
 	await new Promise<void>((resolve, reject) => {
