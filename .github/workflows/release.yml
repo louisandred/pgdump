@@ -44,6 +44,7 @@ jobs:
           echo "Simulating build for ${{ matrix.os }}-${{ matrix.arch }}" > dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}${{ matrix.os == 'windows-latest' && '.exe' || '' }}
 
       - name: Upload binary as release asset
+        if: github.event_name != 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*
