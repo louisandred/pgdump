@@ -1,5 +1,127 @@
 # 🛠️ pgdump
 
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
+[![npm version](https://img.shields.io/npm/v/pgdump?style=flat)](https://www.npmjs.com/package/pgdump)
+[![License](https://img.shields.io/npm/l/pgdump?style=flat)](LICENSE)
 
 Lightweight Node.js wrapper for PostgreSQL pg_dump.
+
+---
+
+## 🚀 Features
+
+- Simple Node.js wrapper for PostgreSQL `pg_dump`
+- Works on all major platforms (Linux, macOS, Windows)
+- Lightweight ~30ko
+- Dump database in a file or capture as string
+- Supports standard authentication options
+- Easily configurable with additional `pg_dump` CLI options
+
+---
+
+## 💿 Installation
+
+```bash
+# Using npm
+npm i pgdump
+
+# Using yarn
+yarn add pgdump
+
+# Using pnpm
+pnpm add pgdump
+```
+
+---
+
+## ⚙️ Usage
+
+### Basic Example
+
+#### Dump in a file
+```ts
+import { dump } from 'pgdump';
+
+const backupDatabase = async () => {
+  try {
+    await dump({
+      host: 'localhost',
+      port: 5432,
+      database: 'mydb',
+      user: 'postgres',
+      password: 'mypassword',
+	  outputFile: './database_dump.sql'
+    });
+  } catch (err) {
+    console.error('Error creating database dump:', err);
+  }
+}
+
+backupDatabase();
+```
+
+#### Capture the string
+```ts
+import { dump } from 'pgdump';
+
+const backupDatabase = async () => {
+  try {
+    const sql = await dump({
+      host: 'localhost',
+      port: 5432,
+      database: 'mydb',
+      user: 'postgres',
+      password: 'mypassword',
+    });
+
+    console.log('Database dump captured successfully:');
+    console.log(sql);
+  } catch (err) {
+    console.error('Error creating database dump:', err);
+  }
+}
+
+backupDatabase();
+```
+
+---
+
+## ⚡ CLI Usage
+
+`pgdump` can also be used directly from the command line.
+
+### Install globally (optional)
+
+```bash
+npm i -g pgdump
+```
+
+#### Basic command
+
+```bash
+pgdump --host 'localhost' --port 5432 --database 'mydb' --user 'postgres' --password 'mypassword' --file './database_dump.sql'
+```
+
+---
+
+## 📚 Contributing
+
+Contributions, issues, and feature requests are welcomed !  
+
+To contribute:
+
+1. Fork the repository 
+2. Create a new branch for your feature or fix
+3. Make your changes
+4. Submit a pull request
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+
+
+
+
