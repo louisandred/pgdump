@@ -14,7 +14,7 @@
 		"check:ci": "pnpm check:format && pnpm biome ci ./src",
 		"format": "pnpm dprint fmt && pnpm biome lint --write ./src",
 		"check:format": "pnpm dprint check",
-		"postinstall": "tsx ./src/scripts/fetch-binary.ts"
+		"postinstall": "node ./dist/scripts/fetch-binary.js"
 	},
 	"keywords": [
 		"postgresql",
