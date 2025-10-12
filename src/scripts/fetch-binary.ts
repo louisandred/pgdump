@@ -1,5 +1,5 @@
 import { getBinaryName, getCacheDir } from "@/utils";
-import { LIB_VERSION } from '@/version';
+import { LIB_VERSION } from "@/version";
 import fs from "node:fs";
 import https from "node:https";
 import { platform } from "node:os";

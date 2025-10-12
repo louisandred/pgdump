@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { dumpSchema } from "@/dump";
-import { LIB_VERSION } from '@/version';
+import { LIB_VERSION } from "@/version";
 import { Command } from "commander";
 import path from "node:path";
 
