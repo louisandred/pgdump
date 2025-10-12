@@ -53,8 +53,8 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y postgresql-client-16
 
-            # Copy binary
-            cp /usr/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
+            # Copy binary from actual location
+            cp /usr/lib/postgresql/16/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
             chmod +x dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
 
             # Verify it works
