@@ -1,8 +1,8 @@
 # 🛠️ pgdump
 
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
-[![npm version](https://img.shields.io/npm/v/pgdump?style=flat)](https://www.npmjs.com/package/pgdump)
-[![License](https://img.shields.io/npm/l/pgdump?style=flat)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@louisbm/pgdump?style=flat)](https://www.npmjs.com/package/@louisbm/pgdump)
+[![License](https://img.shields.io/npm/l/@louisbm/pgdump?style=flat)](LICENSE)
 
 Lightweight Node.js wrapper for PostgreSQL pg_dump.
 
@@ -23,13 +23,13 @@ Lightweight Node.js wrapper for PostgreSQL pg_dump.
 
 ```bash
 # Using npm
-npm i pgdump
+npm i @louisbm/pgdump
 
 # Using yarn
-yarn add pgdump
+yarn add @louisbm/pgdump
 
 # Using pnpm
-pnpm add pgdump
+pnpm add @louisbm/pgdump
 ```
 
 ---
@@ -40,7 +40,7 @@ pnpm add pgdump
 
 #### Dump in a file
 ```ts
-import { dump } from 'pgdump';
+import { dump } from '@louisbm/pgdump';
 
 const backupDatabase = async () => {
   try {
@@ -62,7 +62,7 @@ backupDatabase();
 
 #### Capture the string
 ```ts
-import { dump } from 'pgdump';
+import { dump } from '@louisbm/pgdump';
 
 const backupDatabase = async () => {
   try {
@@ -88,12 +88,12 @@ backupDatabase();
 
 ## ⚡ CLI Usage
 
-`pgdump` can also be used directly from the command line.
+`@louisbm/pgdump` can also be used directly from the command line.
 
 ### Install globally (optional)
 
 ```bash
-npm i -g pgdump
+npm i -g @louisbm/pgdump
 ```
 
 #### Basic command
