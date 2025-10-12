@@ -1,10 +1,10 @@
 # 🛠️ pgdump
 
 [![Checked with Biome](https://img.shields.io/badge/Checked_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
-[![npm version](https://img.shields.io/npm/v/pgdump?style=flat)](https://www.npmjs.com/package/pgdump)
-[![License](https://img.shields.io/npm/l/pgdump?style=flat)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@louisbm/pgdump?style=flat)](https://www.npmjs.com/package/@louisbm/pgdump)
+[![License](https://img.shields.io/npm/l/@louisbm/pgdump?style=flat)](LICENSE)
 
-Lightweight Node.js wrapper for PostgreSQL pg_dump.
+Lightweight Node.js wrapper for PostgreSQL `pg_dump`.
 
 ---
 
@@ -12,7 +12,7 @@ Lightweight Node.js wrapper for PostgreSQL pg_dump.
 
 - Simple Node.js wrapper for PostgreSQL `pg_dump`
 - Works on all major platforms (Linux, macOS, Windows)
-- Lightweight ~30ko
+- Lightweight, no dependencies
 - Dump database in a file or capture as string
 - Supports standard authentication options
 - Easily configurable with additional `pg_dump` CLI options
@@ -23,13 +23,13 @@ Lightweight Node.js wrapper for PostgreSQL pg_dump.
 
 ```bash
 # Using npm
-npm i pgdump
+npm i @louisbm/pgdump
 
 # Using yarn
-yarn add pgdump
+yarn add @louisbm/pgdump
 
 # Using pnpm
-pnpm add pgdump
+pnpm add @louisbm/pgdump
 ```
 
 ---
@@ -40,11 +40,11 @@ pnpm add pgdump
 
 #### Dump in a file
 ```ts
-import { dump } from 'pgdump';
+import { dumpSchema } from '@louisbm/pgdump';
 
 const backupDatabase = async () => {
   try {
-    await dump({
+    await dumpSchema({
       host: 'localhost',
       port: 5432,
       database: 'mydb',
@@ -62,11 +62,11 @@ backupDatabase();
 
 #### Capture the string
 ```ts
-import { dump } from 'pgdump';
+import { dumpSchema } from '@louisbm/pgdump';
 
 const backupDatabase = async () => {
   try {
-    const sql = await dump({
+    const sql = await dumpSchema({
       host: 'localhost',
       port: 5432,
       database: 'mydb',
@@ -88,12 +88,12 @@ backupDatabase();
 
 ## ⚡ CLI Usage
 
-`pgdump` can also be used directly from the command line.
+`@louisbm/pgdump` can also be used directly from the command line.
 
 ### Install globally (optional)
 
 ```bash
-npm i -g pgdump
+npm i -g @louisbm/pgdump
 ```
 
 #### Basic command

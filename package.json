@@ -6,7 +6,7 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
-		"build": "tsc && tsc-alias && esbuild ./src/cli.ts --bundle --platform=node --outfile=bin/pgdump.js",
+		"build": "tsc && tsc-alias && esbuild ./src/cli.ts --bundle --platform=node --format=cjs --outfile=bin/pgdump.cjs",
 		"dev": "tsx ./src/cli.ts",
 		"clean": "pnpm rimraf -rf dist bin",
 		"typecheck": "tsc --noEmit",
@@ -14,7 +14,7 @@
 		"check:ci": "pnpm check:format && pnpm biome ci ./src",
 		"format": "pnpm dprint fmt && pnpm biome lint --write ./src",
 		"check:format": "pnpm dprint check",
-		"postinstall": "tsx ./src/scripts/fetch-binary.ts"
+		"postinstall": "node ./dist/scripts/fetch-binary.js"
 	},
 	"keywords": [
 		"postgresql",
@@ -38,7 +38,7 @@
 		"url": "https://github.com/louisandred/pgdump/issues"
 	},
 	"bin": {
-		"pgdump": "bin/pgdump.js"
+		"pgdump": "bin/pgdump.cjs"
 	},
 	"files": [
 		"dist",
@@ -53,6 +53,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.2.5",
 		"@types/node": "^24.7.1",
+		"commander": "^14.0.1",
 		"cross-fetch": "^4.1.0",
 		"dprint": "^0.50.2",
 		"esbuild": "^0.25.10",
@@ -60,8 +61,5 @@
 		"tsc-alias": "^1.8.16",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3"
-	},
-	"dependencies": {
-		"commander": "^14.0.1"
 	}
 }
