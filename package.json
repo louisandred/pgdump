@@ -1,6 +1,6 @@
 {
-	"name": "pgdump",
-	"version": "0.1.0",
+	"name": "@louisbm/pgdump",
+	"version": "0.2.0",
 	"description": "Lightweight Node.js wrapper for PostgreSQL pg_dump.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
