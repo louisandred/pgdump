@@ -49,7 +49,6 @@ const backupDatabase = async () => {
       port: 5432,
       database: 'mydb',
       user: 'postgres',
-      password: 'mypassword',
 	  outputFile: './database_dump.sql'
     });
   } catch (err) {
@@ -71,7 +70,6 @@ const backupDatabase = async () => {
       port: 5432,
       database: 'mydb',
       user: 'postgres',
-      password: 'mypassword',
     });
 
     console.log('Database dump captured successfully:');
@@ -99,7 +97,7 @@ npm i -g @louisbm/pgdump
 #### Basic command
 
 ```bash
-pgdump --host 'localhost' --port 5432 --database 'mydb' --user 'postgres' --password 'mypassword' --file './database_dump.sql'
+pgdump --host 'localhost' --port 5432 --database 'mydb' --user 'postgres' --file './database_dump.sql'
 ```
 
 ---
