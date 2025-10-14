@@ -11,7 +11,7 @@
 		"resolveJsonModule": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
-        "moduleResolution": "Node",
+        "moduleResolution": "node",
 		"baseUrl": ".",
 		"declaration": true,
 		"declarationMap": true,
@@ -20,4 +20,8 @@
 		}
     },
     "include": ["src/**/*"],
+	"tsc-alias": {
+		"verbose": false,
+		"resolveFullPaths": true,
+	}
 }
