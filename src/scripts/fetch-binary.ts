@@ -1,6 +1,7 @@
 import { getBinaryName, getCacheDir } from "@/utils";
 import { LIB_VERSION } from "@/version";
 import fs from "node:fs";
+import type { IncomingMessage } from "node:http";
 import https from "node:https";
 import { platform } from "node:os";
 import path from "node:path";
@@ -8,20 +9,33 @@ import { pipeline } from "node:stream/promises";
 
 const downloadFile = async (url: string, dest: string): Promise<void> => {
 	await new Promise<void>((resolve, reject) => {
-		https
-			.get(url, (response) => {
-				if (response.statusCode !== 200) {
-					reject(new Error(`Download failed with status ${response.statusCode}`));
+		const handleResponse = (response: IncomingMessage) => {
+			const { statusCode, headers } = response;
+
+			/** Follow redirects (GitHub uses 302 for release assets). */
+			if (statusCode === 301 || statusCode === 302) {
+				if (headers.location === undefined) {
+					reject(new Error("Redirect without location header"));
 					return;
 				}
 
-				const fileStream = fs.createWriteStream(dest);
+				https.get(headers.location, handleResponse).on("error", reject);
+				return;
+			}
 
-				pipeline(response, fileStream)
-					.then(() => resolve())
-					.catch((err) => reject(err));
-			})
-			.on("error", reject);
+			if (statusCode !== 200) {
+				reject(new Error(`Download failed with status ${statusCode}`));
+				return;
+			}
+
+			const fileStream = fs.createWriteStream(dest);
+
+			pipeline(response, fileStream)
+				.then(() => resolve())
+				.catch((err) => reject(err));
+		};
+
+		https.get(url, handleResponse).on("error", reject);
 	});
 };
 
