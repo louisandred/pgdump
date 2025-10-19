@@ -131,7 +131,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pg_dump-${{ matrix.os }}-${{ matrix.arch }}
-          path: dist/*.{zip,tar.gz}
+          path: |
+            dist/*.zip
+            dist/*.tar.gz
           retention-days: 7
           overwrite: true
 
