@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import { buildBinaryName, getBinaryFolderName, getCacheDir } from "@/utils";
 import { LIB_VERSION } from "@/version";
+import AdmZip from "adm-zip";
 import fs from "node:fs";
 import type { IncomingMessage } from "node:http";
 import https from "node:https";
 import { platform } from "node:os";
 import path from "node:path";
 import { pipeline } from "node:stream/promises";
-import AdmZip from 'adm-zip';
 
 const downloadFile = async (url: string, dest: string): Promise<void> => {
 	await new Promise<void>((resolve, reject) => {

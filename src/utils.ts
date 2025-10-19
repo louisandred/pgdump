@@ -1,7 +1,7 @@
 import fs from "node:fs";
+import { chmod } from "node:fs/promises";
 import os, { arch, platform } from "node:os";
 import path from "node:path";
-import { chmod } from "node:fs/promises";
 
 /**
  * Returns the local cache directory path for storing binaries.
