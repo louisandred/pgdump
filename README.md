@@ -12,7 +12,6 @@ Lightweight Node.js wrapper for PostgreSQL `pg_dump`.
 
 - Simple Node.js wrapper for PostgreSQL `pg_dump`
 - Works on all major platforms (Linux, macOS, Windows)
-- Lightweight, no dependencies
 - Dump database in a file or capture as string
 - Supports standard authentication options
 - Easily configurable with additional `pg_dump` CLI options
@@ -24,10 +23,14 @@ Lightweight Node.js wrapper for PostgreSQL `pg_dump`.
 ```bash
 # Using npm
 npm i @louisbm/pgdump
+```
 
+```bash
 # Using yarn
 yarn add @louisbm/pgdump
+```
 
+```bash
 # Using pnpm
 pnpm add @louisbm/pgdump
 ```
