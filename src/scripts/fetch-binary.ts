@@ -1,7 +1,5 @@
 #!/usr/bin/env node
-import { buildBinaryName, getBinaryFolderName, getCacheDir } from "@/utils";
-import { LIB_VERSION } from "@/version";
-import AdmZip from "adm-zip";
+import { buildBinaryName, createDownloadUrl, createZipFolderName, getBinaryFolderName, getCacheDir, handleUnzipFolder } from "@/utils";
 import fs from "node:fs";
 import type { IncomingMessage } from "node:http";
 import https from "node:https";
@@ -45,26 +43,21 @@ const main = async () => {
 	const cacheDir = getCacheDir();
 	const binFolderName = getBinaryFolderName();
 	const binFolderPath = path.join(cacheDir, binFolderName);
-	const zipPath = path.join(cacheDir, `${binFolderName}.zip`);
+	const zipFolderName = createZipFolderName(binFolderName);
+	const zipPath = path.join(cacheDir, zipFolderName);
 
 	if (fs.existsSync(binFolderPath)) {
 		console.log(`pgdump: binary already exists at ${binFolderPath}`);
 		return;
 	}
 
-	const downloadUrl = `https://github.com/louisandred/pgdump/releases/download/v${LIB_VERSION}/${binFolderName}.zip`;
+	const downloadUrl = createDownloadUrl();
 	console.log(`pgdump: downloading ${downloadUrl}`);
 
 	try {
 		await downloadFile(downloadUrl, zipPath);
 
-		/** Handles .zip folder. */
-		const zip = new AdmZip(zipPath);
-
-		zip.extractAllTo(binFolderPath, true);
-
-		/** Delete .zip folder. */
-		fs.unlinkSync(zipPath);
+		await handleUnzipFolder(zipPath, binFolderPath);
 
 		const binaryPath = path.join(binFolderPath, buildBinaryName());
 
