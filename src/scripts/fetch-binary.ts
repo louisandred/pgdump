@@ -1,4 +1,5 @@
-import { getBinaryName, getCacheDir } from "@/utils";
+#!/usr/bin/env node
+import { buildBinaryName, getBinaryFolderName, getCacheDir } from "@/utils";
 import { LIB_VERSION } from "@/version";
 import fs from "node:fs";
 import type { IncomingMessage } from "node:http";
@@ -6,6 +7,7 @@ import https from "node:https";
 import { platform } from "node:os";
 import path from "node:path";
 import { pipeline } from "node:stream/promises";
+import AdmZip from 'adm-zip';
 
 const downloadFile = async (url: string, dest: string): Promise<void> => {
 	await new Promise<void>((resolve, reject) => {
@@ -41,29 +43,40 @@ const downloadFile = async (url: string, dest: string): Promise<void> => {
 
 const main = async () => {
 	const cacheDir = getCacheDir();
-	const binName = getBinaryName();
-	const binPath = path.join(cacheDir, binName);
+	const binFolderName = getBinaryFolderName();
+	const binFolderPath = path.join(cacheDir, binFolderName);
+	const zipPath = path.join(cacheDir, `${binFolderName}.zip`);
 
-	if (fs.existsSync(binPath)) {
-		console.log(`pgdump: binary already exists at ${binPath}`);
+	if (fs.existsSync(binFolderPath)) {
+		console.log(`pgdump: binary already exists at ${binFolderPath}`);
 		return;
 	}
 
-	const downloadUrl = `https://github.com/louisandred/pgdump/releases/download/v${LIB_VERSION}/${binName}`;
+	const downloadUrl = `https://github.com/louisandred/pgdump/releases/download/v${LIB_VERSION}/${binFolderName}.zip`;
 	console.log(`pgdump: downloading ${downloadUrl}`);
 
 	try {
-		await downloadFile(downloadUrl, binPath);
+		await downloadFile(downloadUrl, zipPath);
 
-		if (platform() !== "win32") fs.chmodSync(binPath, 0o755);
+		/** Handles .zip folder. */
+		const zip = new AdmZip(zipPath);
 
-		console.log(`pgdump: installed binary to ${binPath}`);
+		zip.extractAllTo(binFolderPath, true);
+
+		/** Delete .zip folder. */
+		fs.unlinkSync(zipPath);
+
+		const binaryPath = path.join(binFolderPath, buildBinaryName());
+
+		if (platform() !== "win32") fs.chmodSync(binaryPath, 0o755);
+
+		console.log(`pgdump: installed binary to ${binaryPath}`);
 	} catch (err: unknown) {
 		if (err instanceof Error) console.error(`pgdump: failed to download binary — ${err.message}`);
 		else console.log("Unknown error", err);
 
 		console.error(`You can manually install it later.`);
-
+	} finally {
 		process.exit(1);
 	}
 };
