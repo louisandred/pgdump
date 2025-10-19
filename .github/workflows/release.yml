@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies (skip postinstall)
         run: pnpm install --frozen-lockfile --ignore-scripts
 
-      - name: Build pg_dump binary (Linux/MacOS)
+      - name: Build pg_dump binary (Linux/MacOS): create archive
         if: matrix.os != 'windows-latest'
         shell: bash
         run: |
@@ -71,7 +71,13 @@ jobs:
 
             # Verify it works
             dist/${{ matrix.os }}-${{ matrix.arch }}/pg_dump --version
+
           fi
+
+          # Create tar.gz archive
+          tar -czf dist/${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist/${{ matrix.os }}-${{ matrix.arch }} .
+          echo "Created archive: dist/${{ matrix.os }}-${{ matrix.arch }}.tar.gz"
+
       - name: Build pg_dump binary (Windows)
         if: matrix.os == 'windows-latest'
         shell: powershell
@@ -106,11 +112,17 @@ jobs:
             Write-Host "Warning: pg_dump verification failed with exit code $LASTEXITCODE, but binary was copied successfully"
           }
 
+          # Create zip archive
+          Compress-Archive -Path "$destPath\*" -DestinationPath "dist\${{ matrix.os }}-${{ matrix.arch }}.zip"
+          Write-Host "Created archive: dist\${{ matrix.os }}-${{ matrix.arch }}.zip"
+
       - name: Upload binary as release asset
         if: github.event_name != 'workflow_dispatch'
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/**/*
+          files: |
+            dist/*.zip
+            dist/*.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -119,7 +131,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pg_dump-${{ matrix.os }}-${{ matrix.arch }}
-          path: dist/**/*
+          path: dist/*.{zip,tar.gz}
           retention-days: 7
           overwrite: true
 
