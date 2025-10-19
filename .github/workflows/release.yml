@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies (skip postinstall)
         run: pnpm install --frozen-lockfile --ignore-scripts
 
-      - name: Build pg_dump binary (Linux/MacOS): create archive
+      - name: Build pg_dump binary archive (Linux/MacOS)
         if: matrix.os != 'windows-latest'
         shell: bash
         run: |
@@ -78,7 +78,7 @@ jobs:
           tar -czf dist/${{ matrix.os }}-${{ matrix.arch }}.tar.gz -C dist/${{ matrix.os }}-${{ matrix.arch }} .
           echo "Created archive: dist/${{ matrix.os }}-${{ matrix.arch }}.tar.gz"
 
-      - name: Build pg_dump binary (Windows)
+      - name: Build pg_dump binary archive (Windows)
         if: matrix.os == 'windows-latest'
         shell: powershell
         run: |
