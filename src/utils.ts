@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { chmod } from "node:fs/promises";
 import os, { arch, platform } from "node:os";
 import path from "node:path";
 
@@ -36,18 +37,14 @@ const isSupported = (os: string, arch: string): boolean => {
 	return SUPPORTED_OS_ARCH.has(`${os}-${arch}`);
 };
 
-const buildBinaryName = (os: string, architecture: string): string => {
-	let name = `pg_dump-${os}-${architecture}`;
-
-	if (os === "windows-latest") name += ".exe";
-
-	return name;
+const buildBinaryFolderName = (os: string, architecture: string): string => {
+	return `${os}-${architecture}`;
 };
 
 /**
- * Determines the binary filename based on OS and architecture.
+ * Determines the binary folder name based on OS and architecture.
  */
-export const getBinaryName = (): string => {
+export const getBinaryFolderName = (): string => {
 	const osName = mapPlatformToGithub(platform());
 	const architecture = arch();
 
@@ -64,5 +61,31 @@ export const getBinaryName = (): string => {
 		);
 	}
 
-	return buildBinaryName(osName, architecture);
+	return buildBinaryFolderName(osName, architecture);
+};
+
+/**
+ * Builds the binary name based on the os.
+ */
+export const buildBinaryName = () => {
+	const os = platform();
+
+	return os === "win32" ? "pg_dump.exe" : "pg_dump";
+};
+
+/**
+ * Returns the full path to the pg_dump binary for the current OS/arch.
+ * Throws if the binary is missing.
+ */
+export const getPgDumpBinary = async (): Promise<string> => {
+	const binPath = path.join(getCacheDir(), getBinaryFolderName(), buildBinaryName());
+
+	if (!fs.existsSync(binPath)) {
+		throw new Error(`pg_dump binary not found for ${platform()}-${arch()}. ` + `Run 'npm install' again or ensure fetch-binary script executed.`);
+	}
+
+	/** Ensure executable permissions on Unix/macOS. */
+	if (platform() !== "win32") await chmod(binPath, 0o755);
+
+	return binPath;
 };

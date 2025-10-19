@@ -41,7 +41,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          mkdir -p dist
+          mkdir -p dist/${{ matrix.os }}-${{ matrix.arch }}
 
           if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
             # Install PostgreSQL client from official repository
@@ -55,22 +55,22 @@ jobs:
             sudo apt-get install -y postgresql-client-16
 
             # Copy binary from actual location
-            cp /usr/lib/postgresql/16/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
-            chmod +x dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
+            cp /usr/lib/postgresql/16/bin/pg_dump dist/${{ matrix.os }}-${{ matrix.arch }}/pg_dump
+            chmod +x dist/${{ matrix.os }}-${{ matrix.arch }}/pg_dump
 
             # Verify it works
-            dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }} --version
+            dist/${{ matrix.os }}-${{ matrix.arch }}/pg_dump --version
 
           elif [[ "${{ matrix.os }}" == "macos-13" ]] || [[ "${{ matrix.os }}" == "macos-latest" ]]; then
             # Install PostgreSQL via Homebrew (native architecture)
             brew install postgresql@16
 
             # Copy binary
-            cp $(brew --prefix postgresql@16)/bin/pg_dump dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
-            chmod +x dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }}
+            cp $(brew --prefix postgresql@16)/bin/pg_dump dist/${{ matrix.os }}-${{ matrix.arch }}/pg_dump
+            chmod +x dist/${{ matrix.os }}-${{ matrix.arch }}/pg_dump
 
             # Verify it works
-            dist/pg_dump-${{ matrix.os }}-${{ matrix.arch }} --version
+            dist/${{ matrix.os }}-${{ matrix.arch }}/pg_dump --version
           fi
       - name: Build pg_dump binary (Windows)
         if: matrix.os == 'windows-latest'
@@ -80,7 +80,7 @@ jobs:
           choco install postgresql16 --params '/Password:dummy' -y
           
           # Create dist directory
-          New-Item -ItemType Directory -Force -Path dist
+          New-Item -ItemType Directory -Force -Path dist/${{ matrix.os }}-${{ matrix.arch }}
 
           # Check if pg_dump.exe exists
           $pgDumpPath = "C:\Program Files\PostgreSQL\16\bin\pg_dump.exe"
@@ -93,14 +93,15 @@ jobs:
             exit 1
           }
 
-          # Copy binary
-          $destPath = "dist\pg_dump-${{ matrix.os }}-${{ matrix.arch }}.exe"
-          Copy-Item $pgDumpPath -Destination $destPath
+          # Copy binary and all files in same folder
+          $destPath = "dist\${{ matrix.os }}-${{ matrix.arch }}"
+          Copy-Item -Path "C:\Program Files\PostgreSQL\16\bin\*" -Destination $destPath -Recurse -Force
           Write-Host "Copied to: $destPath"
 
           # Verify it works (add PostgreSQL bin to PATH temporarily for verification)
+          $binaryPath = Join-Path $destPath "pg_dump.exe"
           $env:PATH = "C:\Program Files\PostgreSQL\16\bin;$env:PATH"
-          & $destPath --version
+          & $binaryPath --version
           if ($LASTEXITCODE -ne 0) {
             Write-Host "Warning: pg_dump verification failed with exit code $LASTEXITCODE, but binary was copied successfully"
           }

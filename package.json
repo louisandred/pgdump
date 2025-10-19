@@ -1,12 +1,14 @@
 {
 	"name": "@louisbm/pgdump",
-	"version": "0.4.0",
+	"version": "0.5.0",
 	"description": "Lightweight Node.js wrapper for PostgreSQL pg_dump.",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
-		"build": "tsc && tsc-alias && esbuild ./src/cli.ts --bundle --platform=node --format=cjs --outfile=bin/pgdump.cjs",
+		"build:pgdump": "esbuild ./src/cli.ts --bundle --platform=node --format=cjs --outfile=bin/pgdump.cjs",
+		"build:fetcher": "esbuild ./src/scripts/fetch-binary.ts --bundle --platform=node --format=cjs --outfile=bin/pgdump-fetch-binary.cjs",
+		"build": "tsc && tsc-alias && pnpm build:pgdump && pnpm build:fetcher",
 		"dev": "tsx ./src/cli.ts",
 		"clean": "pnpm rimraf -rf dist bin",
 		"typecheck": "tsc --noEmit",
@@ -38,7 +40,8 @@
 		"url": "https://github.com/louisandred/pgdump/issues"
 	},
 	"bin": {
-		"pgdump": "bin/pgdump.cjs"
+		"pgdump": "bin/pgdump.cjs",
+		"pgdump-fetch-binary": "bin/pgdump-fetch-binary.cjs"
 	},
 	"files": [
 		"dist",
@@ -52,6 +55,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.5",
+		"@types/adm-zip": "^0.5.7",
 		"@types/node": "^24.7.1",
 		"commander": "^14.0.1",
 		"cross-fetch": "^4.1.0",
@@ -61,5 +65,8 @@
 		"tsc-alias": "^1.8.16",
 		"tsx": "^4.20.6",
 		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"adm-zip": "^0.5.16"
 	}
 }
