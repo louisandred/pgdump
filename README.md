@@ -4,7 +4,9 @@
 [![npm version](https://img.shields.io/npm/v/@louisbm/pgdump?style=flat)](https://www.npmjs.com/package/@louisbm/pgdump)
 [![License](https://img.shields.io/npm/l/@louisbm/pgdump?style=flat)](LICENSE)
 
-Lightweight Node.js wrapper for PostgreSQL `pg_dump`.
+Lightweight Node.js wrapper for PostgreSQL `pg_dump`.<br>
+After installation, it downloads the corresponding `pg_dump` binary based on your system.<br>
+In any case, you can download the binary manually by running `npm run pgdump-fetch-binary`.
 
 ---
 
